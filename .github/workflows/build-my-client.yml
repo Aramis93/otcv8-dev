@@ -4,9 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-windows:
     runs-on: windows-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -14,17 +13,16 @@ jobs:
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: '9c40786937e1974797cb733732e724a806c9b537'
+          vcpkgGitCommitId: 9c40786937e1974797cb733732e724a806c9b537
 
       - name: Build with CMake
         uses: lukka/run-cmake@v10
         with:
           cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
           buildDirectory: '${{ github.workspace }}/build'
-          cmakeAppendedArgs: '-DCLIENT_VERSION=1310'
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: otcv8-win-x64-1310
+          name: otcv8-win-x64
           path: ${{ github.workspace }}/build/dist/
